@@ -8,7 +8,14 @@ const purchaseRoutes = require("./routes/purchaseRoutes");
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://kantin-bazma.vercel.app",
+    ],
+  })
+);
 app.use(express.json());
 
 app.use("/api/foods", foodRoutes);
