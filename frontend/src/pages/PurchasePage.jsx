@@ -6,7 +6,6 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
 export default function PurchasePage() {
-  const [barcodeInput, setBarcodeInput] = useState("");
   const [foods, setFoods] = useState([]);
   const [purchases, setPurchases] = useState([]);
 
@@ -94,25 +93,6 @@ export default function PurchasePage() {
   };
 
   const grandTotal = cart.reduce((total, item) => total + item.subtotal, 0);
-
-  const handleBarcodeScan = async (e) => {
-    if (e.key !== "Enter") return;
-
-    try {
-      const res = await api.get(`/foods/barcode/${barcodeInput}`);
-
-      const food = res.data;
-
-      setFoodId(food.id);
-      setPrice(food.price);
-
-      toast.success(`${food.name} ditemukan`);
-
-      setBarcodeInput("");
-    } catch (error) {
-      toast.error("Barcode tidak ditemukan");
-    }
-  };
 
   // Ambil daftar makanan
   const getFoods = async () => {
@@ -298,15 +278,6 @@ export default function PurchasePage() {
           className="border p-2 w-full mb-3 rounded"
           value={buyerName}
           onChange={(e) => setBuyerName(e.target.value)}
-        />
-
-        <input
-          type="text"
-          placeholder="Scan Barcode"
-          value={barcodeInput}
-          onChange={(e) => setBarcodeInput(e.target.value)}
-          onKeyDown={handleBarcodeScan}
-          className="border p-2 w-full mb-3 rounded"
         />
 
         <select
